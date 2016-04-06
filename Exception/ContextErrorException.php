@@ -31,7 +31,7 @@ class ContextErrorException extends \ErrorException
      * @param int    $lineno
      * @param array  $context
      */
-    public function __construct($message, $code, $severity, $filename, $lineno, $context = array())
+    public function __construct($message, $code, $severity, $filename, $lineno, array $context = [])
     {
         parent::__construct($message, $code, $severity, $filename, $lineno);
         $this->context = $context;
