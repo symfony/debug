@@ -28,12 +28,12 @@ use Symfony\Component\Debug\Exception\OutOfMemoryException;
  */
 class ExceptionHandler
 {
-    private $debug;
-    private $charset;
-    private $handler;
-    private $caughtBuffer;
-    private $caughtLength;
-    private $fileLinkFormat;
+    public $debug;
+    public $charset;
+    public $handler;
+    public $caughtBuffer;
+    public $caughtLength;
+    public $fileLinkFormat;
 
     public function __construct($debug = true, $charset = null, $fileLinkFormat = null)
     {
@@ -201,6 +201,13 @@ class ExceptionHandler
      */
     public function getContent(FlattenException $exception)
     {
+        /**
+         * 支持回调函数处理异常内容
+         */
+        if (function_exists('exception_content')) {
+            return exception_content($this, $exception);
+        }
+
         switch ($exception->getStatusCode()) {
             case 404:
                 $title = 'Sorry, the page you are looking for could not be found.';
@@ -325,7 +332,7 @@ EOF;
 EOF;
     }
 
-    private function decorate($content, $css)
+    public function decorate($content, $css)
     {
         return <<<EOF
 <!DOCTYPE html>
@@ -350,14 +357,14 @@ EOF;
 EOF;
     }
 
-    private function formatClass($class)
+    public function formatClass($class)
     {
         $parts = explode('\\', $class);
 
         return sprintf('<abbr title="%s">%s</abbr>', $class, array_pop($parts));
     }
 
-    private function formatPath($path, $line)
+    public function formatPath($path, $line)
     {
         $path = $this->escapeHtml($path);
         $file = preg_match('#[^/\\\\]*$#', $path, $file) ? $file[0] : $path;
@@ -378,7 +385,7 @@ EOF;
      *
      * @return string
      */
-    private function formatArgs(array $args)
+    public function formatArgs(array $args)
     {
         $result = array();
         foreach ($args as $key => $item) {
@@ -407,7 +414,7 @@ EOF;
     /**
      * HTML-encodes a string.
      */
-    private function escapeHtml($str)
+    public function escapeHtml($str)
     {
         return htmlspecialchars($str, ENT_QUOTES | ENT_SUBSTITUTE, $this->charset);
     }
