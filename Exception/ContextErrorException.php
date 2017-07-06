@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the Symfony package.
  *
@@ -8,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Debug\Exception;
 
 /**
@@ -20,9 +18,22 @@ namespace Symfony\Component\Debug\Exception;
  */
 class ContextErrorException extends \ErrorException
 {
-    private $context = array();
+    /**
+     * @type array
+     */
+    private $context = [];
 
-    public function __construct($message, $code, $severity, $filename, $lineno, $context = array())
+    /**
+     * ContextErrorException constructor.
+     *
+     * @param string $message
+     * @param int    $code
+     * @param int    $severity
+     * @param string $filename
+     * @param int    $lineno
+     * @param array  $context
+     */
+    public function __construct($message, $code, $severity, $filename, $lineno, array $context = [])
     {
         parent::__construct($message, $code, $severity, $filename, $lineno);
         $this->context = $context;
