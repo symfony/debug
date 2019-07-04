@@ -9,13 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Debug\Exception;
+namespace Symfony\Component\Debug\Tests;
 
-/**
- * Out of memory exception.
- *
- * @author Nicolas Grekas <p@tchwork.com>
- */
-class OutOfMemoryException extends FatalErrorException
+use Symfony\Component\Debug\ExceptionHandler;
+
+class MockExceptionHandler extends ExceptionHandler
 {
+    public $e;
+
+    public function handle(\Exception $e)
+    {
+        $this->e = $e;
+    }
 }
