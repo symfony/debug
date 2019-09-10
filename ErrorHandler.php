@@ -112,10 +112,10 @@ class ErrorHandler
      *
      * @return self The registered error handler
      */
-    public static function register(self $handler = null, $replace = true)
+    public static function register(self $handler = null, $replace = true, $reservedMemory = 10240)
     {
         if (null === self::$reservedMemory) {
-            self::$reservedMemory = str_repeat('x', 10240);
+            self::$reservedMemory = str_repeat('x', $reservedMemory);
             register_shutdown_function(__CLASS__.'::handleFatalError');
         }
 
